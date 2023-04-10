@@ -1,0 +1,179 @@
+#include <iostream>
+#include <cstdlib>
+#include <time.h>
+using namespace std;
+
+int getInterger(string s)
+{
+    int n=0;
+    do
+    {
+        cout<<s<<": ";
+        cin>>n;
+        if (n<=0) cout <<"SAI ROI"<<endl;
+    } while (n<=0);
+    return n;
+}
+
+void generateArray(int a[],int n)
+{
+    int dau;
+    for (int i=0;i<n;i++)
+    {
+        dau=rand()%2;
+        a[i]=rand()%1000;//Công thức tạo random thuộc [a,b]: a+rand()%(b-a+1)
+        if (dau==1) a[i]=-a[i];
+    }
+}
+
+void outputArray(int a[],int n)
+{
+    for (int i=0;i<n;i++)
+        cout <<a[i]<<" ";
+        cout<<endl;
+}
+
+void Menu()
+{
+    cout<<"------ MENU --------\n";
+    cout<<"1          QUICKSORT\n";
+    cout<<"2          MERGESORT\n";
+    cout<<"13              QUIT\n";
+}
+
+
+void Merge(int a[],int l,int m,int r)
+{
+    int *c = new int [r-l+1];
+    for (int i=l;i<=m;i++)
+        c[i-l]=a[i];
+    for (int i=m+1;i<=r;i++)
+        c[i-l]=a[i];
+    int Left=l,Right=m+1,n=l,xx=(l+r)/2;
+    while (Left<=m && Right<=r)
+    {
+        if (c[Left-l]<c[Right-l])
+            a[n++]=c[Left++-l];
+        else
+            a[n++]=c[-l+Right++];
+    }
+
+    while (Left<=m)
+        a[n++]=c[Left++-l];
+    while (Right<=r)
+        a[n++]=c[-l+Right++];
+}
+
+
+void Mergesort(int a[],int l,int r)
+{
+    if (l<r)
+    {
+        int m=(l+r)/2;
+        Mergesort(a,l,m);
+        Mergesort(a,m+1,r);
+        Merge(a,l,m,r);
+    }
+}
+
+
+void Quick_sort (int b[],int l,int r)
+{
+    int i=l,j=r,x;
+    x=b[(i+j)/2];
+    while (i<=j)
+    {
+        while (b[i]<x) i++;
+        while (b[j]>x) j--;
+        if (i<=j)
+        {
+            swap(b[i],b[j]);
+            i++;
+            j--;
+        }
+    }
+    if (l<j) Quick_sort(b,l,j);
+    if (i<r) Quick_sort(b,i,r);
+}
+
+void Interchange_sort (int a[],int n)
+{
+    for (int i=0;i<n-1;i++)
+        for (int j=i+1;j<n;j++)
+            if(a[i]>a[j]) swap(a[j],a[i]);
+}
+
+void Sort(int choose,int a[],int n)
+{
+    switch (choose)
+    {
+    case 1:
+        {
+            Quick_sort(a,0,n-1);
+            break;
+        }
+    case 2:
+        {
+            Mergesort(a,0,n-1);
+            break;
+        }
+    /*case 3:
+        {
+            Interchange_sort(a,n);
+            break;
+        }*/
+    }
+}
+
+void Time(int choose,int a[],int n)
+{
+    clock_t start = clock(); // gọi đồng hồ và bấm giờ
+    Sort(choose,a,n);
+    clock_t endd = clock();
+    outputArray(a,n);
+    if (choose==1) cout<<"1          QUICKSORT\n";
+    if (choose==2) cout<<"2          MERGESORT\n";
+    cout <<"Time: "<<(double) (endd-start)/CLOCKS_PER_SEC<<"s\n";
+}
+
+int main()
+{
+    char check;
+    srand(time(NULL)); //Hàm để tạo những bộ test ngẫu nhiên
+    int choose;
+    do
+    {
+    int n=getInterger("Please enter a number in range 1 ... 100.000.000");
+    int *a=new int [n];
+    generateArray(a,n);
+    outputArray(a,n);
+    Menu();
+        do
+        {
+        cout <<"Please choose: ";
+        cin>>choose;
+        cout<<endl;
+        }
+        while ((choose!=13 && choose!=1) && choose !=2);
+    if (choose==13)
+    {
+        cout <<"See you again";
+        break;
+    }
+    Time(choose,a,n);
+
+    cout <<"Do you want to continue? \nYes='Y'\nNo='N'\n";
+        while(1)
+        {
+        cin>>check;
+        if (check=='N' || check == 'n' || check=='Y' || check=='y') break;
+        cout<<"Ban nhap gi vay, lam on nghiem tuc nhap lai di aaaa\n";
+        }
+
+    if (check=='N' || check == 'n') cout <<"See you again";
+
+    }
+    while (check=='Y' || check=='y');
+
+    return 0;
+}
