@@ -35,12 +35,21 @@ void outputArray(int a[],int n)
 
 void Menu()
 {
-    cout<<"------ MENU --------\n";
-    cout<<"1          QUICKSORT\n";
-    cout<<"2          MERGESORT\n";
-    cout<<"13              QUIT\n";
+    cout<<"---------- MENU ----------\n";
+    cout<<"1            SELECTIONSORT\n";
+    cout<<"2          INTERCHANGESORT\n";
+    cout<<"3            INSERTIONSORT\n";
+    cout<<"4      BINARYINSERTIONSORT\n";
+    cout<<"5               BUBBLESORT\n";
+    cout<<"6                SHAKESORT\n";
+    cout<<"7             COUNTINGSORT\n";
+    cout<<"8                QUICKSORT\n";
+    cout<<"9                MERGESORT\n";
+    cout<<"10                HEAPSORT\n";
+    cout<<"11               SHELLSORT\n";
+    cout<<"12               RADIXSORT\n";
+    cout<<"13                    QUIT\n";
 }
-
 
 void Merge(int a[],int l,int m,int r)
 {
