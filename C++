@@ -53,7 +53,7 @@ void Menu()
 
 //tham khảo trên https://www.geeksforgeeks.org/insertion-sort/
 
-void Selection_sort(int arr[], int n){
+void Insertion_sort(int arr[], int n){
     int j, temp;
     for(int i = 1; i < n; i++){
         j = i - 1;
