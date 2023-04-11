@@ -221,13 +221,6 @@ void Quick_sort (int b[],int l,int r)
     if (i<r) Quick_sort(b,i,r);
 }
 
-void Interchange_sort (int a[],int n)
-{
-    for (int i=0;i<n-1;i++)
-        for (int j=i+1;j<n;j++)
-            if(a[i]>a[j]) swap(a[j],a[i]);
-}
-
 void Sort(int choose,int a[],int n)
 {
     switch (choose)
