@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
+#include <math.h>
 using namespace std;
 
 int getInterger(string s)
@@ -51,6 +52,37 @@ void Menu()
     cout<<"13                    QUIT\n";
 }
 
+void radixSort(int* arr, int n)
+{
+    int maxVal = 0;
+    for (int i=0;i<n;i++)
+        maxVal=max(arr[i],maxVal);
+    for (int digit = 1; maxVal / digit > 0; digit *= 10)
+        {
+        int buckets[10] = {0};
+        for (int i = 0; i < n; i++)
+            {
+            int bucketIdx = (arr[i] / digit) % 10;
+            buckets[bucketIdx]++;
+            }
+
+        for (int i = 1; i < 10; i++)
+            buckets[i] += buckets[i - 1];
+
+        int output[n];
+        for (int i = n - 1; i >= 0; i--)
+            {
+            int bucketIdx = (arr[i] / digit) % 10;
+            output[buckets[bucketIdx] - 1] = arr[i];
+            buckets[bucketIdx]--;
+            }
+
+        for (int i = 0; i < n; i++)
+            arr[i] = output[i];
+        }
+}
+
+
 void Selection_sort(int arr[], int n){
     int index_min;
 
@@ -59,7 +91,7 @@ void Selection_sort(int arr[], int n){
 
         for(int j = i + 1; j < n; j++){
             if(arr[j] < arr[index_min])
-                index_min = j; 
+                index_min = j;
         }
 
         swap(arr[i], arr[index_min]);
@@ -90,6 +122,8 @@ void Insertion_sort(int arr[], int n){
         arr[j] = temp;
     }
 }
+
+
 
 void binary_insertion_sort(int arr[], int n){
     int temp, left, right;
@@ -126,7 +160,7 @@ void bubble_sort(int arr[], int n){
                 flag = 1;
             }
         }
-        
+
         if(!flag)
             break;
 
@@ -172,38 +206,38 @@ void counting_sort(int arr[], int n)
     int *temp = new int [n];
     int max = arr[0];
     int min = arr[0];
- 
+
  int i;
     for(i = 1; i < n; i++)
     {
         if(arr[i] > max)
-            max = arr[i]; 
+            max = arr[i];
         else if(arr[i] < min)
             min = arr[i];
     }
- 
+
     int k = max - min + 1;
- 
+
     int *count = new int [k];
 
     for(i=0; i<k; i++)
         count[i]=0;
- 
+
     for(i = 0; i < n; i++)
-        count[arr[i] - min]++; 
- 
+        count[arr[i] - min]++;
+
     for(i = 1; i < k; i++)
         count[i] += count[i - 1];
- 
+
     for(i = 0; i < n; i++)
     {
         temp[count[arr[i] - min] - 1] = arr[i];
         count[arr[i] - min]--;
     }
- 
+
     for(i = 0; i < n; i++)
         arr[i] = temp[i];
-    
+
     delete[] count;
     delete[] temp;
 }
@@ -262,25 +296,124 @@ void Quick_sort (int b[],int l,int r)
     if (i<r) Quick_sort(b,i,r);
 }
 
+
+void heapify(int arr[], int n, int i)
+{
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+    if (l < n && arr[l] > arr[largest])
+        largest = l;
+
+    if (r < n && arr[r] > arr[largest])
+        largest = r;
+
+    if (largest != i)
+        {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+        }
+}
+
+void heap_sort(int arr[], int n)
+{
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+
+    for (int i = n - 1; i >= 0; i--)
+        {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+        }
+}
+
+void shell_sort(int arr[], int n)
+{
+    for (int gap = n / 2; gap > 0; gap /= 2)
+        for (int i = gap; i < n; i++)
+            {
+            int temp = arr[i];
+            int j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+                arr[j] = arr[j - gap];
+            arr[j] = temp;
+            }
+}
+
+void Change(int a[],int n)
+{
+    for (int i=0;i<n;i++)
+        a[i]=abs(a[i]);
+}
+
 void Sort(int choose,int a[],int n)
 {
     switch (choose)
     {
     case 1:
         {
-            Quick_sort(a,0,n-1);
+            Selection_sort(a,n);
             break;
         }
     case 2:
         {
+            Interchange_sort(a,n);
+            break;
+        }
+    case 3:
+        {
+            Insertion_sort(a,n);
+            break;
+        }
+    case 4:
+        {
+            binary_insertion_sort(a,n);
+            break;
+        }
+    case 5:
+        {
+            bubble_sort(a,n);
+            break;
+        }
+    case 6:
+        {
+            shaker_sort(a,n);
+            break;
+        }
+    case 7:
+        {
+            counting_sort(a,n);
+            break;
+        }
+     case 8:
+        {
+            Quick_sort(a,0,n-1);
+            break;
+        }
+     case 9:
+        {
             Mergesort(a,0,n-1);
             break;
         }
-    /*case 3:
+     case 10:
         {
-            Interchange_sort(a,n);
+            heap_sort(a,n);
             break;
-        }*/
+        }
+     case 11:
+        {
+            shell_sort(a,n);
+            break;
+        }
+     case 12:
+        {
+            cout<<"Do radixSort chi so nguyen duong nen da thay doi mang"<<endl;
+            Change(a,n);
+            radixSort(a,n);
+            break;
+        }
+
     }
 }
 
@@ -290,8 +423,6 @@ void Time(int choose,int a[],int n)
     Sort(choose,a,n);
     clock_t endd = clock();
     outputArray(a,n);
-    if (choose==1) cout<<"1          QUICKSORT\n";
-    if (choose==2) cout<<"2          MERGESORT\n";
     cout <<"Time: "<<(double) (endd-start)/CLOCKS_PER_SEC<<"s\n";
 }
 
@@ -313,7 +444,7 @@ int main()
         cin>>choose;
         cout<<endl;
         }
-        while ((choose!=13 && choose!=1) && choose !=2);
+        while (choose>13 || choose<1);
     if (choose==13)
     {
         cout <<"See you again";
