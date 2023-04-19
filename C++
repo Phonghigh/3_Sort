@@ -341,11 +341,6 @@ void shell_sort(int arr[], int n)
             }
 }
 
-void Change(int a[],int n)
-{
-    for (int i=0;i<n;i++)
-        a[i]=abs(a[i]);
-}
 
 void Sort(int choose,int a[],int n)
 {
@@ -407,9 +402,7 @@ void Sort(int choose,int a[],int n)
             break;
         }
      case 12:
-        {
-            cout<<"Do radixSort chi so nguyen duong nen da thay doi mang"<<endl;
-            Change(a,n);
+        {  
             radixSort(a,n);
             break;
         }
